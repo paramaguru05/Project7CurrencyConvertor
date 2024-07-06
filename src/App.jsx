@@ -7,7 +7,7 @@ const App = () => {
   return (
   <>
     <DataProvider>
-        <section className='bg-slate-200 h-screen p-3'>
+        <section className='bg-blue-200 h-screen p-3'>
           <Header/>
           <Button/>
         </section>
