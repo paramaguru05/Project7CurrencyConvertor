@@ -7,7 +7,7 @@ const App = () => {
   return (
   <>
     <DataProvider>
-        <section className='bg-blue-200 h-screen p-3'>
+        <section className='bg-blue-50 h-screen p-3'>
           <Header/>
           <Button/>
         </section>
@@ -16,12 +16,3 @@ const App = () => {
   )
 }
 export default App
-
-/**
- * git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/paramaguru05/Project7CurrencyConvertor.git
-git push -u origin main
- */
