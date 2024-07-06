@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.headerHight{
+    height: 40%;
+}
+.buttonComponentsHight{
+    height: 50%;
+}
+.buttonComponentsWidth{
+    width: 90%;
+}
+.currencyContainerLeft{
+    left: 25%;
+}
