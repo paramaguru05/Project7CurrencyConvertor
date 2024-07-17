@@ -1,5 +1,5 @@
 import { createContext,useEffect,useState} from "react";
-
+import api from '../api/currencyApi'
 
 export const DataContext=createContext({})
 export const DataProvider=({children})=>{
@@ -12,43 +12,59 @@ export const DataProvider=({children})=>{
     const [dropDown,setDropDown]=useState([])
     const [isLoading,setIsLoading]=useState(false)
     const [errorMessage,setErrorMessage]=useState('')
+    const [showFrom,setShowFrom] = useState(false)
+    const [showToCurr,setShowToCurr] = useState(false)
     useEffect(()=>{
-        async function totalCurrencys(){
-            const host = 'api.frankfurter.app';
-            try{
-                let respons=await fetch(`https://${host}/currencies`)
-                let data=await respons.json()
-                let filteredData=Object.entries(data)
-                setDropDown(filteredData)
+        async function currences(){
+            try{ 
+                setIsLoading(true)
+                let respons = await api.get('/currencies')
+                let data =  Object.entries(respons.data)
+                let newData = data.map((val,index,arr)=>arr[index][0])
+                setDropDown(...dropDown,newData)
+            }catch(err){
+                if(err.respons){
+                    console.log(err.respons.data)
+                    console.log(err.respons.status)
+                    console.log(err.respons.headers)
+                }else{
+                    console.log(`Error : ${err.message}`)
+                }
             }
-            catch(err){
-                setErrorMessage(err.message)
-    
+            finally{
+                setAmount('')
+                setIsLoading(false)
             }
-        }
-        totalCurrencys()
 
+        }
+        currences()
+        
     },[])
     async function processData(){
-        const host = 'api.frankfurter.app';
-        let amt=Number(amount)
+        let amt = Number(amount)
         try{
-            let respons=await fetch(`https://${host}/latest?amount=${amt}&from=${fromCurr}&to=${toCurr}`)
-            let res=await respons.json()
-            let rates= Object.entries(res.rates)
-            setResult(`${toCurr}: ${rates[0][1].toFixed(2)} `)
-        }
-        catch(err){
-            console.log(err.message)
+            let respons = await api.get(`/latest?amount=${amt}&from=${fromCurr}&to=${toCurr}`)
+            let data =Object.entries(respons.data.rates)
+            setResult(`${toCurr} : ${data[0][1]}`)
+
+        }catch(err){
+            if(err.respons){
+                console.log(err.respons.status)
+                console.log(err.respons.data)
+                console.log(err.respons.headers)
+            }else{
+                console.log(`Error: ${err.message}`)
+            }
+
         }
         finally{
-            setAmount("")
-            
+            console.log("Checking...")
         }
     }
+
          return(
         <DataContext.Provider value={{
-            isLoading,setIsLoading,dropDown,processData,result,setResult,amount,setAmount,title,showButton,setShowButton,fromCurr,setFromCurr,toCurr,setTocurr
+           errorMessage,showFrom,setShowFrom,showToCurr,setShowToCurr,isLoading,setIsLoading,dropDown,processData,result,setResult,amount,setAmount,title,showButton,setShowButton,fromCurr,setFromCurr,toCurr,setTocurr
         }}>
             {children}
         </DataContext.Provider>

@@ -14,3 +14,31 @@
 .currencyContainerLeft{
     left: 25%;
 }
+
+@layer components{
+    .baseUL{
+        @apply absolute bg-blue-500 mt-3 z-20  text-white scrollbar-thin scrollbar-thumb-white  scrollbar-track-blue-500 overflow-y-scroll max-h-48 w-1/3  md:w-1/5 text-center ;
+    }
+    .baseLI{
+        @apply hover:bg-slate-100 cursor-pointer transition-colors mx-auto w-4/5 rounded-md hover:font-semibold ease-in-out duration-500 hover:text-blue-600 mt-2;
+    }
+    .input{
+        @apply py-1 outline-none ring-2 ring-blue-400 rounded-md pl-3  placeholder:text-blue-500 cursor-pointer font-serif ;
+    }
+    .fromCurr{
+        @apply flex rounded-md bg-blue-300 w-full text-white items-center justify-around px-5  py-1 ;
+    }
+    .baseDownButton{
+        @apply mt-2 ml-5 hover:text-black;
+    }
+    .fromCurrContainer{
+        @apply pt-2 mt-3  flex justify-evenly items-center;
+    }
+    .currencyHeading{
+        @apply text-center border-b-2 border-dotted border-blue-500 pt-1 font-serif font-semibold;
+    }
+}
+
+.containerHight{
+    height: 87%;
+}

@@ -1,37 +1,69 @@
-import React, { useContext } from 'react'
+import React, { useState,useContext } from 'react'
+import DataContext from '../context/DataContext';
+import { FaChevronDown } from "react-icons/fa";
 
-import DataContext from '../context/DataContext'
 
 const CurrencyDetails = () => {
-    
-    const {dropDown,processData,result,setResult,amount,setAmount,showButton,setShowButton,fromCurr,setFromCurr,toCurr,setTocurr}=useContext(DataContext)
+
+  const {errorMessage,isLoading,showFrom,setShowFrom,showToCurr,setShowToCurr,dropDown,processData,result,setResult,amount,setAmount,showButton,setShowButton,fromCurr,setFromCurr,toCurr,setTocurr}=useContext(DataContext)
   return (
-    <main className={`w-11/12 md:w-2/3 lg:w-1/2 transition-all ease-linear duration-300 bg-white shadow-2xl  absolute left-5 md:left-20 lg:left-64 py-4 ${showButton?`-bottom-5`:`-bottom-24`} rounded-2xl`}>
-        <p className='text-center mt-2 font-bold font-serif'>From Currency</p>
-        <div id='fromCurrency' className='flex   justify-evenly mt-3'>
-            <select value={fromCurr} onChange={(e)=>setFromCurr(e.target.value)} className='outline-none bg-blue-500 px-4 py-1 text-white rounded-lg '>
-                {/* <option  value="USD">USD</option> */}
-                {dropDown.map((val,i,arr)=>{
-                    return <option key={i} value={arr[i][0]}>{arr[i][0]}</option>
-                })}
-            </select>
-            <label className='absolute -left-full' htmlFor="fromcurrency"></label>
-            <input  value={amount} type="text" className='bg-blue-400 text-white pl-4 rounded-lg placeholder:text-white py-1 cursor-pointer outline-none  font-semibold'  onChange={(e)=>setAmount(e.target.value)} onClick={()=>setShowButton(true)} placeholder='Amount' id='fromcurrency' />
-        </div>
-        <p className='text-center mt-2 font-bold font-serif'>To Currency</p>
-        <div id='fromCurrency' className='flex   justify-evenly mt-3'>
-            <select value={toCurr} onChange={(e)=>setTocurr(e.target.value)} className='outline-none  bg-blue-500 px-4 py-1 text-white rounded-lg '>
-                {dropDown.map((val,i,arr)=>{
-                    return <option key={i} value={arr[i][0]}>{arr[i][0]}</option>
-                })}
-            </select>
-            <label className='absolute -left-full' htmlFor="fromcurrency"></label>
-            <input type="text" className='bg-blue-400 text-white pl-4 rounded-lg placeholder:text-white py-1 cursor-pointer outline-none  font-semibold' placeholder='RESULT' id='fromcurrency' value={result} onChange={(e)=>setResult(e.target.value)} />
-        </div>
-        <div className='flex justify-center mt-3 -mb-5'>
-            <button onClick={()=>processData()} className='bg-blue-600 px-5 py-1 rounded-xl text-white italic -mb-3 active:bg-blue-300 shadow-lg '>Convert</button>
-        </div>
-    </main>
+    <>
+      <main className={` transition-all ease-in-out duration-500 bg-white containerHight w-11/12 absolute shadow-2xl ${showButton?`-bottom-4`:`-bottom-28`} rounded-lg`}>
+            <p className='currencyHeading'>From Currency</p>
+            <div className='fromCurrContainer '>
+                  
+                  <div id='drop-down' className='w-1/3  md:w-1/5'>
+                      <div className='fromCurr '>
+                        <p className=''>{fromCurr}</p>
+                        <p onClick={()=>[setShowFrom(!showFrom), setShowToCurr(false)]} className='baseDownButton'>
+                          <button>
+                            <FaChevronDown/>
+                          </button>
+                        </p>
+                       </div>
+                     {
+                      showFrom && <ul onClick={()=>setShowFrom(false)} className='baseUL'>
+                          {
+                            dropDown.map((val,index)=>{
+                              return <li key={index} onClick={(e)=>setFromCurr(e.target.textContent)} className='baseLI'>{val}</li>
+                            })
+                          }
+
+                      </ul>
+                     }
+                   </div>
+                        <div id='Amount'>
+                          <input onClick={()=>[setShowButton(true)]} onChange={(e)=>setAmount(e.target.value)} value={amount} type="text" className='input'  placeholder='Amount'/>
+                        </div>
+              </div>
+              <p className='currencyHeading mt-2'>To Currency</p>
+              <div className='fromCurrContainer'>
+                  <div id='drop-down' className='w-1/3  md:w-1/5'>
+                      <div className='fromCurr'>
+                        <p className=''>{toCurr}</p>
+                        <p onClick={()=>[setShowToCurr(!showToCurr),setShowFrom(false)]} className='baseDownButton'>
+                          <button>
+                            <FaChevronDown/>
+                          </button>
+                        </p>
+                  </div>
+                     {
+                      showToCurr && <ul onClick={()=>setShowToCurr(false)} className='baseUL'>
+                          {
+                            dropDown.map((val,index)=><li key={index} onClick={(e)=>setTocurr(e.target.textContent)} className='baseLI'>{val}</li>)
+                          }
+                      </ul>
+                     }
+                   </div>
+                        <div id='Amount'>
+                          {isLoading && <input type="text" className='input '  placeholder='Data Loading...'/> }
+                          {errorMessage && <input type="text" className='input' onChange={(e)=>setResult(e.target.value)} value={errorMessage} placeholder='Result'/>}
+                          {!isLoading && !errorMessage && <input type="text" className='input' onChange={(e)=>setResult(e.target.value)} value={result} placeholder='Result'/>}
+                        </div>
+              </div>
+              <p onClick={()=>processData()} className='absolute  w-full -bottom-3  text-center'><button className='bg-blue-400 px-4 py-1 rounded-lg hover:bg-blue-300 text-white shadow-lg shadow-blue-400'>Converyt</button></p>
+      </main>
+    </>
   )
 }
 
