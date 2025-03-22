@@ -17,7 +17,7 @@
 
 @layer components{
     .baseUL{
-        @apply absolute bg-blue-500 mt-3 z-20  text-white scrollbar-thin scrollbar-thumb-white  scrollbar-track-blue-500 overflow-y-scroll max-h-48 w-1/3  md:w-1/5 text-center ;
+        @apply absolute bg-blue-500 mt-3 z-20  text-white  overflow-y-scroll max-h-48 w-1/3  md:w-1/5 text-center ;
     }
     .baseLI{
         @apply hover:bg-slate-100 cursor-pointer transition-colors mx-auto w-4/5 rounded-md hover:font-semibold ease-in-out duration-500 hover:text-blue-600 mt-2;
